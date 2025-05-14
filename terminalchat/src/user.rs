@@ -1,5 +1,7 @@
 use uuid::Uuid;
+use crate::database::Database;
 
+#[derive(Clone)]
 pub struct User<'a> {
     id: Uuid,
     username: &'a str,
@@ -7,11 +9,14 @@ pub struct User<'a> {
 }
 
 pub fn register(username: &str, password: &str) {
-    let _new_user = User {
+    let new_user = User {
         id: Uuid::new_v4(),
         username: username,
         password: password
     };
+
+    let mut db = Database::new();
+    db.insert(new_user);
     println!("Registered new user successfully");
 }
 
